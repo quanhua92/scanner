@@ -1,17 +1,3 @@
-/* Copyright 2016 Carnegie Mellon University
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 #include "scanner/video/software/software_video_encoder.h"
 #include "scanner/util/h264.h"
@@ -120,7 +106,7 @@ void SoftwareVideoEncoder::configure(const FrameInfo& metadata,
   cc_->thread_count = 4;
   cc_->width = frame_width_;    // Note Resolution must be a multiple of 2!!
   cc_->height = frame_height_;  // Note Resolution must be a multiple of 2!!
-  // TODO(apoms): figure out this fps from the input video automatically
+  // TODO: figure out this fps from the input video automatically
   cc_->time_base.den = 24;
   cc_->time_base.num = 1;
   cc_->gop_size = 120;  // Intra frames per x P frames

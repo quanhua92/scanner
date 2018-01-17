@@ -1,17 +1,3 @@
-/* Copyright 2016 Carnegie Mellon University
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 #include "scanner/engine/master.h"
 #include "scanner/engine/ingest.h"
@@ -204,7 +190,7 @@ grpc::Status MasterImpl::DeleteTables(grpc::ServerContext* context,
     }
   }
 
-  // TODO(apoms): delete the actual table data
+  // TODO: delete the actual table data
 
   write_database_metadata(storage_, meta_);
 
@@ -370,7 +356,7 @@ grpc::Status MasterImpl::IngestVideos(grpc::ServerContext* context,
     result->add_failed_messages(failed.message);
   }
 
-  // HACK(apoms): instead of doing this, we should just add tables to db and
+  // HACK: instead of doing this, we should just add tables to db and
   //              table cache.
   recover_and_init_database();
 
@@ -795,7 +781,7 @@ grpc::Status MasterImpl::NextWork(grpc::ServerContext* context,
 
   // If the job was blacklisted, then we throw it away
   if (blacklisted_jobs_.count(job_idx) > 0) {
-    // TODO(apoms): we are telling the worker to re request work here
+    // TODO: we are telling the worker to re request work here
     // but we should just loop this whole process again
     new_work->set_wait_for_work(true);
     return grpc::Status::OK;
@@ -986,7 +972,7 @@ void MasterImpl::recover_and_init_database() {
   VLOG(1) << "Initializing database...";
 
   VLOG(1) << "Reading database metadata";
-  // TODO(apoms): handle uncommitted database tables
+  // TODO: handle uncommitted database tables
   meta_ = read_database_metadata(storage_, DatabaseMetadata::descriptor_path());
 
   VLOG(1) << "Setting up table metadata cache";
@@ -1227,7 +1213,7 @@ bool MasterImpl::process_job(const proto::BulkJobParameters* job_params,
     return false;
   }
 
-  // HACK(apoms): we currently split work into tasks in two ways:
+  // HACK: we currently split work into tasks in two ways:
   //  a) align with the natural boundaries defined by the slice partitioner
   //  b) use a user-specified size to chunk up the output sequence
 
@@ -1363,7 +1349,7 @@ bool MasterImpl::process_job(const proto::BulkJobParameters* job_params,
 
   VLOG(1) << "Total jobs: " << num_jobs_;
 
-  // TODO(apoms): change this to support adding and removing nodes
+  // TODO: change this to support adding and removing nodes
   //              the main change is that the workers should handle
   //              spawning sub processes instead of appearing as
   //              multiple logical nodes
@@ -1589,7 +1575,7 @@ void MasterImpl::start_worker_pinger() {
           pinger_number_of_failed_pings_[worker_id] = 0;
         }
       }
-      // FIXME(apoms): this sleep is unfortunate because it means a
+      // FIXME: this sleep is unfortunate because it means a
       //               job must take at least this long. A solution
       //               would be to have this wait on a cv so it could
       //               be woken up early.

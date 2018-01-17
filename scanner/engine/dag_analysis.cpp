@@ -1,17 +1,3 @@
-/* Copyright 2016 Carnegie Mellon University
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 #include "scanner/engine/dag_analysis.h"
 #include "scanner/engine/sampler.h"
@@ -132,7 +118,7 @@ Result validate_jobs_and_ops(
           return result;
         }
 
-        // HACK(apoms): we currently restrict all unslice outputs to only
+        // HACK: we currently restrict all unslice outputs to only
         // be consumed by an output Op to make it easy to schedule each
         // slice like an independent task.
         if (input_op_name == UNSLICE_OP_NAME &&
@@ -228,7 +214,7 @@ Result validate_jobs_and_ops(
         KernelFactory* factory =
             kernel_registry->get_kernel(op.name(), op.device_type());
         // Check that the # of inputs match up
-        // TODO(apoms): type check for frame
+        // TODO: type check for frame
         if (!info->variadic_inputs()) {
           i32 expected_inputs = info->input_columns().size();
           if (expected_inputs != input_count) {
@@ -383,7 +369,7 @@ Result validate_jobs_and_ops(
           return result;
         }
         used_sampling_ops.insert(sampling_args_assignment.op_index());
-        // TODO(apoms): verify sampling args are valid
+        // TODO: verify sampling args are valid
         if (sampling_args_assignment.sampling_args().size() == 0) {
           RESULT_ERROR(&result,
                        "Job %s tried to set empty sampling args for Op at %d.",
@@ -980,7 +966,7 @@ void perform_liveness_analysis(const std::vector<proto::Op>& ops,
       intermediates[i] = {};
       for (auto& input : op.inputs()) {
         std::string col = input.column();
-        // HACK(apoms): we remap input column names but don't update
+        // HACK: we remap input column names but don't update
         // the downstream column. A better solution would be to
         // explicitly enumerate the output column names during the initial
         // dag analysis and keep it around.
@@ -1174,7 +1160,7 @@ Result derive_stencil_requirements(
   std::vector<std::vector<i64>> required_input_op_input_rows;
   required_input_op_input_rows.resize(ops.at(0).inputs_size());
   assert(ops.at(0).inputs_size() == job.inputs_size());
-  // HACK(apoms): we currently propagate this boundary condition upward,
+  // HACK: we currently propagate this boundary condition upward,
   // but that would technically cause the upstream sequence to have more
   // elements than required. Should we stop the boundary condition at the Op
   // by deduplication?
@@ -1277,7 +1263,7 @@ Result derive_stencil_requirements(
       // Slice Op
       else if (op.name() == SLICE_OP_NAME) {
         // We know which slice group we are in already from the unslice
-        // HACK(apoms): we currently restrict pipelines such that slices
+        // HACK: we currently restrict pipelines such that slices
         // can be computed entirely independently and choose output rows
         // that do not cross state boundaries to make it possible to assume
         // that all rows are in the same slice
@@ -1306,7 +1292,7 @@ Result derive_stencil_requirements(
       // Unslice Op
       else if (op.name() == UNSLICE_OP_NAME) {
         // Determine which slices we are in and propagate those rows upwards
-        // HACK(apoms): we currently restrict pipelines such that slices
+        // HACK: we currently restrict pipelines such that slices
         // can be computed entirely independently and choose output rows
         // that do not cross state boundaries to make it possible to assume
         // that all rows are in the same slice

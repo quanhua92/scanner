@@ -1,17 +1,3 @@
-/* Copyright 2016 Carnegie Mellon University
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 #include "scanner/engine/worker.h"
 #include "scanner/engine/evaluate_worker.h"
@@ -1224,7 +1210,7 @@ bool WorkerImpl::process_job(const proto::BulkJobParameters* job_params,
       std::vector<EvaluateWorkerArgs>& thread_args = eval_args[ki];
       std::vector<std::tuple<EvalQueue*, EvalQueue*>>& thread_qs =
           eval_queues[ki];
-      // HACK(apoms): we assume all ops in a kernel group use the
+      // HACK: we assume all ops in a kernel group use the
       //   same number of devices for now.
       // for (size_t i = 0; i < group.size(); ++i) {
       KernelFactory* factory = nullptr;

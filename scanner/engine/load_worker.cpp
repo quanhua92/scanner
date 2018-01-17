@@ -1,17 +1,3 @@
-/* Copyright 2016 Carnegie Mellon University
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 #include "scanner/engine/load_worker.h"
 
@@ -86,7 +72,7 @@ RowIntervals slice_into_row_intervals(const TableMetadata& table,
     //   2. if the row we are asking for is the same as the existing row or
     //      before it, we end the current item and start back with the item
     //      for this new row, even if the item is the same as the current item.
-    //      NOTE(apoms): We could fuse these together and only load the item
+    //      NOTE: We could fuse these together and only load the item
     //      once, but to do so requires reordering the data after it is read
     //      from disk to match the ordering requested.
     if (item != current_item || row <= prev_row) {
@@ -257,7 +243,7 @@ bool LoadWorker::yield(i32 item_size,
   eval_work_entry.columns.resize(num_columns);
 
   // For each sample, insert the row ids and read the rows from disk
-  // NOTE(apoms): if the requested rows are different for each column,
+  // NOTE: if the requested rows are different for each column,
   // some of the output work entries will have an uneven number of rows
   i32 media_col_idx = 0;
   i32 out_col_idx = 0;

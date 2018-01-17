@@ -575,7 +575,7 @@ void EvaluateWorker::feed(EvalWorkEntry& work_entry) {
           return producible_rows - batch_over;
         };
 
-    // NOTE(apoms): the number of producible rows should be a multiple of the
+    // NOTE: the number of producible rows should be a multiple of the
     // batch size (if not zero). If not, then this should be the last batch
     // in the task we should add an assert to verify this is the case.
     i64 producible_elements = 0;
@@ -610,7 +610,7 @@ void EvaluateWorker::feed(EvalWorkEntry& work_entry) {
 
     // Grab row ids corresponding to producible elements by walking through
     // element cache
-    // NOTE(apoms): elements in kernel cache from each column should be the same
+    // NOTE: elements in kernel cache from each column should be the same
     // since the input domain for all inputs to a kernel must be the same
     std::vector<i64> producible_row_ids(
         kernel_compute_rows.begin() + kernel_element_cache_input_idx,
@@ -751,7 +751,7 @@ void EvaluateWorker::feed(EvalWorkEntry& work_entry) {
         // Stage inputs to the kernel using the stencil cache
         StenciledBatchedColumns input_columns(input_column_idx.size());
         // For each column
-        // NOTE(apoms): choosing the first columns row ids is fine because all
+        // NOTE: choosing the first columns row ids is fine because all
         // input row ids for each column should be the same since all inputs
         // must have the same domain
         auto stencil_create_start = now();
@@ -899,7 +899,7 @@ void EvaluateWorker::feed(EvalWorkEntry& work_entry) {
     }
 
     // Remove dead columns from side_output_handles
-    // TODO(apoms): move this to before the Op eval
+    // TODO: move this to before the Op eval
     auto& dead_columns = arg_group_.dead_columns[k];
     for (size_t y = 0; y < dead_columns.size(); ++y) {
       i32 dead_col_idx = dead_columns[dead_columns.size() - 1 - y];
@@ -1013,7 +1013,7 @@ PostEvaluateWorker::PostEvaluateWorker(const PostEvaluateWorkerArgs& args)
   encoder_type_ = VideoEncoderType::SOFTWARE;
 
   // Setup video encoders
-  // TODO(apoms): Make this dynamic based on the encoded column type
+  // TODO: Make this dynamic based on the encoded column type
   for (size_t i = 0; i < args.columns.size(); ++i) {
     auto& col = args.columns[i];
     auto& compression_opts = args.column_compression[i];

@@ -1,17 +1,3 @@
-/* Copyright 2016 Carnegie Mellon University, NVIDIA Corporation
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 #include "scanner/video/nvidia/nvidia_video_decoder.h"
 #include "scanner/util/cuda.h"
@@ -83,7 +69,7 @@ NVIDIAVideoDecoder::~NVIDIAVideoDecoder() {
 
   CUcontext dummy;
   CUD_CHECK(cuCtxPopCurrent(&dummy));
-  // HACK(apoms): We are only using the primary context right now instead of
+  // HACK: We are only using the primary context right now instead of
   //   allowing the user to specify their own CUcontext. Thus we need to release
   //   the primary context we retained when using the factory function to create
   //   this object (see VideoDecoder::make_from_config).
@@ -286,7 +272,7 @@ bool NVIDIAVideoDecoder::get_frame(u8* decoded_buffer, size_t decoded_size) {
                                  &mapped_frames_[mapped_frame_index], &pitch,
                                  &params));
     // cuvidMapVideoFrame does not wait for convert kernel to finish so sync
-    // TODO(apoms): make this an event insertion and have the async 2d memcpy
+    // TODO: make this an event insertion and have the async 2d memcpy
     //              depend on the event
     if (profiler_) {
       profiler_->add_interval("map_frame", start_map, now());
