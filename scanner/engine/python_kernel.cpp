@@ -129,7 +129,7 @@ void PythonKernel::batched_python_execute(const BatchedColumns& input_columns,
     py::list batched_cols;
     for (i32 j = 0; j < input_columns.size(); ++j) {
       py::list rows;
-      // HACK(wcrichto): should pass column type in config and check here
+      // HACK: should pass column type in config and check here
       if (config_.input_column_types[j] == proto::ColumnType::Video) {
         for (i32 i = 0; i < input_count; ++i) {
           const Frame *frame = input_columns[j][i].as_const_frame();
@@ -246,7 +246,7 @@ void PythonKernel::single_python_execute(const BatchedColumns& input_columns,
     for (i32 i = 0; i < input_count; ++i) {
       py::list cols;
       for (i32 j = 0; j < input_columns.size(); ++j) {
-        // HACK(wcrichto): should pass column type in config and check here
+        // HACK: should pass column type in config and check here
         if (config_.input_column_types[j] == proto::ColumnType::Video) {
           const Frame* frame = input_columns[j][i].as_const_frame();
           np::ndarray frame_np =
@@ -269,7 +269,7 @@ void PythonKernel::single_python_execute(const BatchedColumns& input_columns,
           << output_columns.size();
 
       for (i32 j = 0; j < output_columns.size(); ++j) {
-        // HACK(wcrichto): should pass column type in config and check here
+        // HACK: should pass column type in config and check here
         if (config_.output_columns[j] == "frame") {
           np::ndarray frame_np = py::extract<np::ndarray>(out_cols[j]);
           FrameType frame_type;

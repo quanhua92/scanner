@@ -652,7 +652,7 @@ void delete_buffer(DeviceHandle device, u8* buffer) {
 #endif
 }
 
-// FIXME(wcrichto): case if transferring between two different GPUs
+// FIXME: case if transferring between two different GPUs
 void memcpy_buffer(u8* dest_buffer, DeviceHandle dest_device,
                    const u8* src_buffer, DeviceHandle src_device, size_t size) {
   if (dest_device.type == DeviceType::CPU &&
@@ -685,7 +685,7 @@ void memcpy_buffer(u8* dest_buffer, DeviceHandle dest_device,
 
 #define NUM_CUDA_STREAMS 32
 
-// TODO(wcrichto): implement CPU-CPU transfer
+// TODO: implement CPU-CPU transfer
 void memcpy_vec(std::vector<u8*>& dest_buffers, DeviceHandle dest_device,
                 const std::vector<u8*>& src_buffers, DeviceHandle src_device,
                 const std::vector<size_t>& sizes) {

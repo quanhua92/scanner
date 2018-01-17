@@ -457,7 +457,7 @@ class Database(object):
 
         if self._start_cluster:
             # Set handler to shutdown cluster on signal
-            # TODO(apoms): we should clear these handlers when stopping
+            # TODO: we should clear these handlers when stopping
             # the cluster
             signal.signal(signal.SIGINT, self._handle_signal)
             signal.signal(signal.SIGTERM, self._handle_signal)
@@ -787,7 +787,7 @@ class Database(object):
 
         Kwargs:
             fn: TODO(wcrichto)
-            force: TODO(apoms)
+            force: TODO
 
         Returns:
             The new table object.
@@ -1086,7 +1086,7 @@ class Database(object):
                         'Attempted to bind arguments to Op {} which is not '
                         'an input, sampling, spacing, slicing, or output Op.'
                         .format(
-                            op.name()))  # FIXME(apoms): op.name() is unbound
+                            op.name()))  # FIXME: op.name() is unbound
             if output_table_name is None:
                 raise ScannerException(
                     'Did not specify the output table name by binding a '

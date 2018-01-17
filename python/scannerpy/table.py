@@ -68,7 +68,7 @@ class Table:
             self._job = None
 
 
-    # HACK(wcrichto): reading from TableDescriptor to avoid loading VideoDescriptors
+    # HACK: reading from TableDescriptor to avoid loading VideoDescriptors
     def column_names(self):
         self._need_descriptor()
         return [c.name for c in self._descriptor.columns]

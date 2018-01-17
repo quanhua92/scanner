@@ -185,7 +185,7 @@ class Column(object):
                     i += 1
             rows_so_far += item_rows
 
-    # TODO(wcrichto): don't show progress bar when running decode png
+    # TODO: don't show progress bar when running decode png
     def load(self, fn=None, rows=None):
         """
         Loads the results of a Scanner computation into Python.
