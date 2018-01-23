@@ -161,7 +161,7 @@ class Database(object):
     Attributes:
         config: The Config object for the database.
         ops: An OpGenerator object for computation creation.
-        protobufs: TODO(wcrichto)
+        protobufs: TODO()
     """
 
     def __init__(self,
@@ -717,11 +717,11 @@ class Database(object):
         Creates a Table from a video.
 
         Args:
-            videos: TODO(wcrichto)
+            videos: TODO()
 
 
         Kwargs:
-            force: TODO(wcrichto)
+            force: TODO()
 
         Returns:
             (list of created Tables, list of (path, reason) failures to ingest)
@@ -786,7 +786,7 @@ class Database(object):
                   serialized representations of the data.
 
         Kwargs:
-            fn: TODO(wcrichto)
+            fn: TODO()
             force: TODO
 
         Returns:
@@ -1085,8 +1085,7 @@ class Database(object):
                     raise ScannerException(
                         'Attempted to bind arguments to Op {} which is not '
                         'an input, sampling, spacing, slicing, or output Op.'
-                        .format(
-                            op.name()))  # FIXME: op.name() is unbound
+                        .format(op.name()))  # FIXME: op.name() is unbound
             if output_table_name is None:
                 raise ScannerException(
                     'Did not specify the output table name by binding a '

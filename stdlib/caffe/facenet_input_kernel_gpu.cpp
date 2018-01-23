@@ -79,7 +79,7 @@ class FacenetInputKernel : public BatchedKernel, public VideoKernel {
     }
   }
 
-  // TODO(wcrichto): set_device
+  // TODO(): set_device
 
   void execute(const BatchedColumns& input_columns,
                BatchedColumns& output_columns) override {

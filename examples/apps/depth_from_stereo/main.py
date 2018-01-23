@@ -11,10 +11,11 @@ import os
 import os.path
 import struct
 
+
 def write_dmb_file(path, image):
     with open(path, 'wb') as f:
         # type
-        f.write(struct.pack('i', 1)) # type
+        f.write(struct.pack('i', 1))  # type
         # height
         f.write(struct.pack('i', image.shape[0]))
         # width
@@ -40,12 +41,14 @@ def make_p_matrices(calib):
 
 
 def main():
-    with open('/n/scanner/apoms/panoptic/160422_mafia2/calibration_160422_mafia2.json', 'r') as f:
+    with open(
+            '/n/scanner/panoptic/160422_mafia2/calibration_160422_mafia2.json',
+            'r') as f:
         calib = json.load(f)
 
     p_matrices = make_p_matrices(calib)
     dataset = '160422_haggling1'
-    template_path = '/n/scanner/apoms/panoptic/' + dataset + '/vgaVideos/vga_{:02d}_{:02d}.mp4'
+    template_path = '/n/scanner/panoptic/' + dataset + '/vgaVideos/vga_{:02d}_{:02d}.mp4'
     i = 0
     video_paths = []
     table_idx = {}
@@ -68,7 +71,8 @@ def main():
             for p in range(1, 21):
                 for c in range(1, 25):
                     table_name = 'calibration_{:02d}_{:02d}'.format(p, c)
-                    num_rows = collection.tables(len(calibration_table_names)).num_rows()
+                    num_rows = collection.tables(
+                        len(calibration_table_names)).num_rows()
                     cam = db.protobufs.Camera()
                     if (p == 14 and c == 18) or num_rows == 0:
                         rows = [[cam.SerializeToString()]]
@@ -85,9 +89,8 @@ def main():
                     print(table_name)
                     db.new_table(table_name, columns, rows, force=True)
                     calibration_table_names.append(table_name)
-            calib_collection = db.new_collection(dataset + '_calibration',
-                                                 calibration_table_names,
-                                                 force=True)
+            calib_collection = db.new_collection(
+                dataset + '_calibration', calibration_table_names, force=True)
 
         collection = db.collection(dataset)
         calib_collection = db.collection(dataset + '_calibration')
@@ -108,7 +111,8 @@ def main():
         input_op = db.ops.Input(["index"] + columns)
         op = db.ops.Gipuma(
             inputs=[(input_op, columns)],
-            args=gipuma_args, device=DeviceType.GPU)
+            args=gipuma_args,
+            device=DeviceType.GPU)
 
         tasks = []
 
@@ -193,7 +197,8 @@ def main():
         normals_path = cam_results_folder + 'normals.dmb'
         depth_path = cam_results_folder + 'disp.dmb'
 
-        output_tables = db.run(tasks, op, pipeline_instances_per_node=4, force=True)
+        output_tables = db.run(
+            tasks, op, pipeline_instances_per_node=4, force=True)
 
         # Export data directory corresponding to image files
         # for i, table in enumerate(collection.tables()):
@@ -234,19 +239,21 @@ def main():
             for fi, tup in table.load(['points', 'cost']):
                 if not os.path.exists(cam_results_folder.format(fi, i)):
                     os.makedirs(cam_results_folder.format(fi, i))
-                points = np.frombuffer(tup[0], dtype=np.float32).reshape(480, 640, 4)
-                cost = np.frombuffer(tup[1], dtype=np.float32).reshape(480, 640, 1)
+                points = np.frombuffer(
+                    tup[0], dtype=np.float32).reshape(480, 640, 4)
+                cost = np.frombuffer(
+                    tup[1], dtype=np.float32).reshape(480, 640, 1)
                 avg = np.median(cost[:])
                 mask = np.where(cost > avg)
                 print(len(mask))
                 print
 
-                depth_img = points[:,:,3].copy()
+                depth_img = points[:, :, 3].copy()
                 depth_img[mask[0], mask[1]] = 0
                 write_dmb_file(depth_path.format(fi, i), depth_img)
 
-                normal_img = points[:,:,0:3].copy()
-                normal_img[mask[0],mask[1],:] = 0
+                normal_img = points[:, :, 0:3].copy()
+                normal_img[mask[0], mask[1], :] = 0
                 write_dmb_file(normals_path.format(fi, i), normal_img)
                 #scipy.misc.toimage(depth_img).save('depth{:05d}_01_01.png'.format(fi))
 
@@ -254,18 +261,22 @@ def main():
         if False:
             disparity_table = db.table('disparity_01_01')
             for fi, tup in disparity_table.load(['points']):
-                points = np.frombuffer(tup[0], dtype=np.float32).reshape(480, 640, 1)
+                points = np.frombuffer(
+                    tup[0], dtype=np.float32).reshape(480, 640, 1)
                 avg = np.median(points[:])
-                depth_img = points[:,:,0].copy()
+                depth_img = points[:, :, 0].copy()
                 depth_img[np.where(depth_img > avg)] = avg * 10
                 print('avg', avg)
-                scipy.misc.toimage(depth_img).save('cost{:05d}_01_01.png'.format(fi))
+                scipy.misc.toimage(depth_img).save(
+                    'cost{:05d}_01_01.png'.format(fi))
 
             disparity_table = db.table('disparity_03_01')
             for fi, tup in disparity_table.load(['points']):
-                points = np.frombuffer(tup[0], dtype=np.float32).reshape(480, 640, 1)
-                depth_img = points[:,:,0]
-                scipy.misc.toimage(depth_img).save('cost{:05d}_03_01.png'.format(fi))
+                points = np.frombuffer(
+                    tup[0], dtype=np.float32).reshape(480, 640, 1)
+                depth_img = points[:, :, 0]
+                scipy.misc.toimage(depth_img).save(
+                    'cost{:05d}_03_01.png'.format(fi))
 
 
 if __name__ == "__main__":

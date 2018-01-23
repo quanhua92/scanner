@@ -7,7 +7,6 @@ fi
 REPO_PATH=git@github.com:scanner-research/scanner.git
 HTML_PATH=build/doc/html
 COMMIT_USER="Documentation Builder"
-COMMIT_EMAIL="wcrichto@cs.stanford.edu"
 CHANGESET=$(git rev-parse --verify HEAD)
 
 openssl aes-256-cbc -K $encrypted_519f11e8a6d4_key -iv $encrypted_519f11e8a6d4_iv -in .travis/travisci_rsa.enc -out .travis/travisci_rsa -d
@@ -41,6 +40,6 @@ then
     docker run $DOCKER_REPO:gpu /bin/bash -c "
 pip install twine && \
 python setup.py bdist_wheel && \
-twine upload -u 'wcrichto' -p '${PYPI_PASS}' dist/*
+twine upload -u '' -p '${PYPI_PASS}' dist/*
 "
 fi

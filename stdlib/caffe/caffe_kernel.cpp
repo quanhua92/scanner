@@ -30,7 +30,7 @@ caffe::Caffe::Brew device_type_to_caffe_mode(DeviceType type) {
       caffe_type = caffe::Caffe::CPU;
       break;
     default:
-      // TODO(apoms): error message
+      // TODO(): error message
       exit(EXIT_FAILURE);
       break;
   }
@@ -442,7 +442,7 @@ void CaffeKernel::set_device() {
   caffe::Caffe::set_mode(device_type_to_caffe_mode(device_.type));
   if (device_.type == DeviceType::GPU) {
     CUDA_PROTECT({
-      // HACK(apoms): caffe does not keep track of device it was initialized
+      // HACK(): caffe does not keep track of device it was initialized
       //  with. For example, if you call cudaSetDevice here before
       //  Caffe::SetDevice, caffe will think the GPU did not change and not
       //  reinit cublas. Need to patch caffe.

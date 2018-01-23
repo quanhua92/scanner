@@ -2,7 +2,6 @@
 
 ARG base_tag
 FROM ${base_tag}
-MAINTAINER Will Crichton "wcrichto@cs.stanford.edu"
 ARG cores=1
 
 RUN bash ./deps.sh --install-all --prefix /usr/local && \

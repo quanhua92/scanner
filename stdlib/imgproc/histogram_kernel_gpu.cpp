@@ -44,7 +44,7 @@ class HistogramKernelGPU : public BatchedKernel, public VideoKernel {
       i32 sid = i % num_cuda_streams_;
       cv::cuda::Stream& s = streams_[sid];
 
-      // TODO(wcrichto): implement correctly w/ streams
+      // TODO(): implement correctly w/ streams
       cvc::GpuMat img = frame_to_gpu_mat(frame_col[i].as_const_frame());
       cvc::split(img, planes_);
 

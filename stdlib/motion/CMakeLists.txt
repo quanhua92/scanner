@@ -1,4 +1,3 @@
-# TODO(wcrichto): fill this out once stenciling is implemented
 
 # if (BUILD_TRACKER_OPS)
 #   find_package(Eigen REQUIRED)

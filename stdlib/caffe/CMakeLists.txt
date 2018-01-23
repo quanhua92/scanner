@@ -18,7 +18,7 @@ endif()
 
 if (BUILD_OPENPOSE_OPS)
   if (NOT BUILD_CUDA)
-    # TODO(apoms): add warning
+    # TODO(): add warning
   else()
     list(APPEND SOURCE_FILES
       openpose_kernel.cpp)
@@ -34,7 +34,7 @@ add_definitions(-DUSE_OPENCV)
 
 add_library(caffe OBJECT ${SOURCE_FILES})
 
-# TODO(wcrichto): auto add these dependencies?
+# TODO(): auto add these dependencies?
 add_dependencies(caffe
   caffe_input_transformer_cpu.exec_generator)
 if (BUILD_CUDA)
